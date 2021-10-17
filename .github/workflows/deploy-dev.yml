@@ -39,44 +39,44 @@ jobs:
           default_bump: patch
           fetch_all_tags: true
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          ECR_REPOSITORY: learn-deploy-code
-          IMAGE_TAG: ${{ steps.tagging.outputs.new_version }}
-        run: |
-          docker build --build-arg VERSION=$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: imranismail/setup-kustomize@v1
-      - run: >
-          cd ./k8s/overlays/dev
+      # - name: Build, tag, and push image to Amazon ECR
+      #   env:
+      #     ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+      #     ECR_REPOSITORY: learn-deploy-code
+      #     IMAGE_TAG: ${{ steps.tagging.outputs.new_version }}
+      #   run: |
+      #     docker build --build-arg VERSION=$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  # deploy:
+  #   name: Deploy
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2.3.4
+  #     - uses: imranismail/setup-kustomize@v1
+  #     - run: >
+  #         cd ./k8s/overlays/dev
 
-          kustomize edit set image ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{
-          secrets.AWS_REGION }}.amazonaws.com/learn-deploy-code:${{
-          needs.build.outputs.tag_version }}
+  #         kustomize edit set image ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{
+  #         secrets.AWS_REGION }}.amazonaws.com/learn-deploy-code:${{
+  #         needs.build.outputs.tag_version }}
           
-          kustomize build . > ./rendered.yaml
-      - uses: ianbelcher/eks-kubectl-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          cluster_name: development
-          args: apply -f ./k8s/overlays/dev/rendered.yaml
+  #         kustomize build . > ./rendered.yaml
+  #     - uses: ianbelcher/eks-kubectl-action@master
+  #       with:
+  #         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws_region: ${{ secrets.AWS_REGION }}
+  #         cluster_name: development
+  #         args: apply -f ./k8s/overlays/dev/rendered.yaml
