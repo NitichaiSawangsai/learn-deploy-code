@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '12:00'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+      include: scope
+    target-branch: 'develop'
+    reviewers:
+      - nitichaisawangsai
+    assignees:
+      - nitichaisawangsai
+
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '12:00'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+      include: scope
+    target-branch: 'develop'
+    reviewers:
+      - nitichaisawangsai
+    assignees:
+      - nitichaisawangsai

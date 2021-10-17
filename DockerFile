@@ -1,0 +1,28 @@
+FROM node:14-alpine
+
+ENV APP_DIR /usr/src/app
+
+WORKDIR ${APP_DIR}
+
+RUN yarn install
+
+COPY . .
+
+ARG NODE_ENV
+
+ARG HOST
+
+ARG PORT
+
+ENV NODE_ENV ${NODE_ENV:-production}
+
+ENV HOST ${HOST:-0.0.0.0}
+
+ENV PORT ${PORT:-3000}
+
+RUN yarn build
+
+EXPOSE 3000
+
+CMD ["yarn", "start"]
+

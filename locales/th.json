@@ -1,0 +1,18 @@
+{
+  "CHAT_BOT":{
+    "CHAT_HELLO": "สวัสดีให้เราช่วยอะไรไหม",
+    "ROOM_CHAT": "ห้องแชท"
+  },
+  "MESSAGE_DEVELOP": "ขออภัยในความไม่สะดวก เว็บนี้กำลังปรับปรุง",
+  "MESSAGE_DEVELOP_TIME": "สามารถเริ่มใช้งานได้วันที่ {date} เวลา {time}",
+  "CAREER": "การพัฒนาซอฟต์แวร์",
+  "WITH": "ของ",
+  "EXPERIENCE_WORK": "ประสบการณ์ทำงาน",
+  "TEXT_PRODUCT": "ตั้งแต่การออกแบบจนถึงมือผู้ใช้งาน",
+  "EXPERIENCE_PROJECT": "โปรเจกต์ที่โดนเด่น",
+  "TOOL": "เครื่องมือ",
+  "FRONT_END": "Front-end development",
+  "BACK_END": "Back-end development",
+  "APPLICATION": "Application",
+  "WEBSITE_DESIGE": "& website design"
+}
